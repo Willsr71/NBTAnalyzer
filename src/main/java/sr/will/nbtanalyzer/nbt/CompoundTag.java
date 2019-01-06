@@ -70,4 +70,12 @@ public class CompoundTag extends Tag<CompoundMap> {
         CompoundMap map = new CompoundMap(value);
         return new CompoundTag(getName(), map);
     }
+
+    public int getSize() {
+        int size = 0;
+        for (Tag<?> tag : value) {
+            size += tag.getSize();
+        }
+        return size;
+    }
 }

@@ -9,7 +9,6 @@ import sr.will.nbtanalyzer.nbt.Tag;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
 public class NBTAnalyzer {
@@ -19,36 +18,59 @@ public class NBTAnalyzer {
     public static final long startTime = System.currentTimeMillis();
     public static final String VERSION = "@version@";
 
-    public static HashMap<Integer, Integer> chunkSizes = new HashMap<>();
-
     public NBTAnalyzer(String file) {
         instance = this;
 
         logger.info(file);
-
         List<Tag<?>> region = RegionReader.readFile(new File(file));
 
-        int largestChunkIndex = 0;
-        for (int x : chunkSizes.keySet()) {
-            if (chunkSizes.get(x) > chunkSizes.get(largestChunkIndex)) {
-                largestChunkIndex = x;
+        Tag<?> chunk = getLargestTag(region);
+        CompoundMap chunkTags = (CompoundMap) chunk.getValue();
+        CompoundMap level = (CompoundMap) chunkTags.get("Level").getValue();
+        ArrayList<CompoundTag> tileEntities = new ArrayList<>((Collection) level.get("TileEntities").getValue());
+        logger.info("Largest chunk is ({}, {}) of size {} with {} TileEntities",
+                level.get("xPos").getValue(),
+                level.get("zPos").getValue(),
+                chunk.getSize(),
+                tileEntities.size()
+        );
+
+        CompoundTag tile = getLargestCompoundTag(tileEntities);
+        CompoundMap tileTags = tile.getValue();
+        logger.info("Largest Tile Entity is {} ({}, {}, {}) of size {}",
+                tileTags.get("id").getValue(),
+                tileTags.get("x").getValue(),
+                tileTags.get("y").getValue(),
+                tileTags.get("z").getValue(),
+                tile.getSize()
+        );
+
+        //System.out.println(tileTags.toString());
+    }
+
+    public Tag<?> getLargestTag(List<Tag<?>> list) {
+        int largestIndex = 0;
+        for (int x = 0; x < list.size(); x += 1) {
+            if (list.get(x).getSize() > list.get(largestIndex).getSize()) {
+                largestIndex = x;
             }
         }
 
-        logger.info("Largest chunk is {} of size {}", largestChunkIndex, chunkSizes.get(largestChunkIndex));
+        return list.get(largestIndex);
+    }
 
-        CompoundMap chunkTags = (CompoundMap) region.get(largestChunkIndex).getValue();
-
-        CompoundMap levelTags = (CompoundMap) chunkTags.get("Level").getValue();
-
-        logger.info("Chunk is at position x={}, z={}", levelTags.get("xPos").getValue(), levelTags.get("zPos").getValue());
-
-        ArrayList<CompoundTag> tileEntities = new ArrayList((Collection) levelTags.get("TileEntities").getValue());
-
-        logger.info("There are {} Tile Entities in this chunk", tileEntities.size());
-
-        for (CompoundTag tile : tileEntities) {
-            //logger.info("Value: {}", tile);
+    public CompoundTag getLargestCompoundTag(List<CompoundTag> list) {
+        int largestIndex = 0;
+        for (int x = 0; x < list.size(); x += 1) {
+            if (list.get(x).getSize() > list.get(largestIndex).getSize()) {
+                largestIndex = x;
+            }
         }
+
+        return list.get(largestIndex);
+    }
+
+    public static Logger getLogger() {
+        return logger;
     }
 }

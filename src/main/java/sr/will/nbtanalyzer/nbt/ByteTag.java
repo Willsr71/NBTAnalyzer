@@ -87,4 +87,8 @@ public final class ByteTag extends Tag<Byte> {
             return null;
         }
     }
+
+    public int getSize() {
+        return 1;
+    }
 }

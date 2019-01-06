@@ -94,4 +94,12 @@ public class ListTag<T extends Tag<?>> extends Tag<List<T>> {
 
         return new ListTag<T>(getName(), type, newList);
     }
+
+    public int getSize() {
+        int size = 0;
+        for (Tag<?> tag : value) {
+            size += tag.getSize();
+        }
+        return 1 + size;
+    }
 }

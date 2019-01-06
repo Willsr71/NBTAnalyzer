@@ -61,4 +61,8 @@ public final class FloatTag extends Tag<Float> {
     public FloatTag clone() {
         return new FloatTag(getName(), value);
     }
+
+    public int getSize() {
+        return 4;
+    }
 }

@@ -47,4 +47,8 @@ public final class EndTag extends Tag<Object> {
     public EndTag clone() {
         return new EndTag();
     }
+
+    public int getSize() {
+        return 0;
+    }
 }

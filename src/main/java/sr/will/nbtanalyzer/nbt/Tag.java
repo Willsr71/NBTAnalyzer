@@ -36,6 +36,7 @@ public abstract class Tag<T> implements Comparable<Tag<?>> {
      */
     private final String name;
     private final TagType type;
+    private int size;
 
     /**
      * Creates the tag with no name.
@@ -125,4 +126,6 @@ public abstract class Tag<T> implements Comparable<Tag<?>> {
      * @return the clone
      */
     public abstract Tag<T> clone();
+
+    public abstract int getSize();
 }

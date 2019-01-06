@@ -61,4 +61,8 @@ public final class IntTag extends Tag<Integer> {
     public IntTag clone() {
         return new IntTag(getName(), value);
     }
+
+    public int getSize() {
+        return 4;
+    }
 }

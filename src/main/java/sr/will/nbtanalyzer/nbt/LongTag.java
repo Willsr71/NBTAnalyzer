@@ -61,4 +61,8 @@ public final class LongTag extends Tag<Long> {
     public LongTag clone() {
         return new LongTag(getName(), value);
     }
+
+    public int getSize() {
+        return 8;
+    }
 }

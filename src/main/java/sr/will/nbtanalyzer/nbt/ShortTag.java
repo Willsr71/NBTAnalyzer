@@ -61,4 +61,8 @@ public final class ShortTag extends Tag<Short> {
     public ShortTag clone() {
         return new ShortTag(getName(), value);
     }
+
+    public int getSize() {
+        return 2;
+    }
 }

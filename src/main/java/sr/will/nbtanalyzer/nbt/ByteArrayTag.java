@@ -95,4 +95,8 @@ public final class ByteArrayTag extends Tag<byte[]> {
             return newArray;
         }
     }
+
+    public int getSize() {
+        return 4 + value.length;
+    }
 }

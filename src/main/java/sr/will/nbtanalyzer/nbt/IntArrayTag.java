@@ -92,4 +92,8 @@ public class IntArrayTag extends Tag<int[]> {
             return intArray;
         }
     }
+
+    public int getSize() {
+        return 4 + (4 * value.length);
+    }
 }

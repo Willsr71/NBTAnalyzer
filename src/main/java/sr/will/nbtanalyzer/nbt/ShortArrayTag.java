@@ -92,4 +92,8 @@ public class ShortArrayTag extends Tag<short[]> {
             return shortArray;
         }
     }
+
+    public int getSize() {
+        return 4 + (2 * value.length);
+    }
 }

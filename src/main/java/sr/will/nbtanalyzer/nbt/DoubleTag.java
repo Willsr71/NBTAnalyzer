@@ -61,4 +61,8 @@ public final class DoubleTag extends Tag<Double> {
     public DoubleTag clone() {
         return new DoubleTag(getName(), value);
     }
+
+    public int getSize() {
+        return 8;
+    }
 }

@@ -48,7 +48,6 @@ public class RegionReader {
     private static Tag<?> readChunk(RandomAccessFile raf, int location) throws IOException {
         raf.seek(location);
         int length = raf.readInt();
-        NBTAnalyzer.chunkSizes.put(NBTAnalyzer.chunkSizes.size(), length);
         byte compressionType = raf.readByte();
         byte[] data = new byte[length - 1];
         raf.readFully(data);

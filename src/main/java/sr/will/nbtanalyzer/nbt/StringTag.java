@@ -61,4 +61,8 @@ public final class StringTag extends Tag<String> {
     public StringTag clone() {
         return new StringTag(getName(), value);
     }
+
+    public int getSize() {
+        return 2 + value.getBytes().length;
+    }
 }
