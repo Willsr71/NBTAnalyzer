@@ -1,0 +1,62 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+}
+
+plugins {
+    id "java"
+    id "idea"
+    id "com.github.johnrengelman.shadow" version "2.0.2"
+    id "ninja.miserable.blossom" version "1.0.1"
+}
+
+def buildNumber = System.env.BUILD_NUMBER ?: "SNAPSHOT"
+
+def projectId = "nbtanalyzer"
+project.group = "sr.will"
+project.version = "1.0-" + buildNumber
+project.description = "A utility to determine troublesome NBT errors with playerdata and anvil wold files"
+def projectUrl = "https://github.com/Willsr71/NBTAnalyzer"
+def projectAuthor = "Willsr71"
+def projectSite = "https://will.sr"
+
+def jarName = "${projectId}-${project.version.toString()}.jar"
+
+repositories {
+    jcenter()
+
+    maven { url "https://repo.noxal.net/" }
+}
+
+dependencies {
+    compile "net.noxal:common:1.5-57"
+    compile "org.slf4j:slf4j-simple:1.7.25"
+}
+
+jar {
+    archiveName jarName
+}
+
+shadowJar {
+    manifest {
+        attributes "Main-Class": "sr.will.nbtanalyzer.Main"
+    }
+
+    archiveName jarName
+}
+
+build {
+    dependsOn clean
+    dependsOn jar
+    dependsOn shadowJar
+
+    jar.mustRunAfter clean
+    shadowJar.mustRunAfter jar
+}
+
+blossom {
+    def location = "src/main/java/sr/will/nbtanalyzer/NBTAnalyzer.java"
+
+    replaceToken "@version@", project.version, location
+}
