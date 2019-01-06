@@ -45,7 +45,13 @@ public class NBTAnalyzer {
                 tile.getSize()
         );
 
-        //System.out.println(tileTags.toString());
+        logger.info("Tile Data:");
+        for (String key : tileTags.keySet()) {
+            logger.info("{} (Type: {}, Size: {})",
+                    key,
+                    tileTags.get(key).getType(),
+                    tileTags.get(key).getSize());
+        }
     }
 
     public Tag<?> getLargestTag(List<Tag<?>> list) {
